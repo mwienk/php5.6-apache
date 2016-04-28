@@ -34,5 +34,5 @@ RUN chown -R www-data:www-data /var/www
 RUN a2enmod rewrite
 
 RUN apt-get update \
-    && apt-get install libxslt-dev \
+    && apt-get install -y libxslt-dev \
     && docker-php-ext-install xsl
