@@ -11,8 +11,9 @@ RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-
     && docker-php-ext-install soap \
     && docker-php-ext-install xsl \
     && docker-php-ext-install intl \
-    && requirementsToRemove="libpng12-dev libjpeg-dev libmcrypt-dev libcurl3-dev libxml2-dev libxslt-dev libicu-dev" \
+    && requirementsToRemove="libpng12-dev libjpeg-dev libmcrypt-dev libcurl3-dev libxml2-dev libicu-dev" \
     && apt-get purge --auto-remove -y $requirementsToRemove
+    && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini
 
 RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && chmod +x /usr/bin/composer \
@@ -31,4 +32,3 @@ WORKDIR /var/www
 RUN usermod -u 1000 www-data
 RUN chown -R www-data:www-data /var/www
 RUN a2enmod rewrite
-
