@@ -1,7 +1,8 @@
 FROM php:5.6-apache
 MAINTAINER Mark Wienk <mark@wienkit.nl>
 
-RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-dev libcurl3-dev libxml2-dev libxslt-dev libicu-dev libicu52" \
+RUN set -xe && export NODE_VERSION=4.4.5
+RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-dev libcurl3-dev libxml2-dev libxslt-dev libicu-dev libicu52 libxslt-dev openssh-client nodejs-legacy npm mysql-server git libbz2-dev" \
     && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
@@ -11,6 +12,8 @@ RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-
     && docker-php-ext-install soap \
     && docker-php-ext-install xsl \
     && docker-php-ext-install intl \
+    && docker-php-ext-install bz2 \
+    && docker-php-ext-install xsl \
     && requirementsToRemove="libpng12-dev libjpeg-dev libmcrypt-dev libcurl3-dev libxml2-dev libicu-dev" \
     && apt-get purge --auto-remove -y $requirementsToRemove \
     && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini
@@ -22,7 +25,9 @@ RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && apt-get purge -y --auto-remove zlib1g-dev \
     && composer selfupdate
 
-RUN sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/docroot/" /etc/apache2/apache2.conf \
+RUN npm install -g gulp
+
+RUN sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www/" /etc/apache2/apache2.conf \
     && rm -rf /var/www/html
 
 VOLUME ["/var/www"]
@@ -31,8 +36,3 @@ WORKDIR /var/www
 
 RUN usermod -u 1000 www-data
 RUN chown -R www-data:www-data /var/www
-RUN a2enmod rewrite
-
-RUN apt-get update \
-    && apt-get install -y libxslt-dev \
-    && docker-php-ext-install xsl
