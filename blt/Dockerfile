@@ -1,7 +1,9 @@
 FROM php:5.6-apache
 MAINTAINER Mark Wienk <mark@wienkit.nl>
 
-RUN set -xe && export NODE_VERSION=4.4.5
+ENV DEBIAN_FRONTEND noninteractive
+ENV NODE_VERSION 4.4.5
+
 RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-dev libcurl3-dev libxml2-dev libxslt-dev libicu-dev libicu52 libxslt-dev openssh-client nodejs-legacy npm mysql-server git libbz2-dev" \
     && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo_mysql \
