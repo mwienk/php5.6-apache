@@ -14,17 +14,13 @@ RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-
     && docker-php-ext-install soap \
     && docker-php-ext-install xsl \
     && docker-php-ext-install intl \
+    && docker-php-ext-install zip \
     && docker-php-ext-install bz2 \
-    && docker-php-ext-install xsl \
-    && requirementsToRemove="libpng12-dev libjpeg-dev libmcrypt-dev libcurl3-dev libxml2-dev libicu-dev" \
-    && apt-get purge --auto-remove -y $requirementsToRemove \
     && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini
 
 RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && chmod +x /usr/bin/composer \
     && apt-get update && apt-get install -y zlib1g-dev git && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-install zip \
-    && apt-get purge -y --auto-remove zlib1g-dev \
     && composer selfupdate
 
 RUN npm install -g gulp
