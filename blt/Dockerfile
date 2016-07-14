@@ -16,7 +16,7 @@ RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-
     && docker-php-ext-install intl \
     && docker-php-ext-install zip \
     && docker-php-ext-install bz2 \
-    && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini
+    && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini \
     && echo "memory_limit=-1" > /usr/local/etc/php/php.ini
 
 RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
