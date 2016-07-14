@@ -14,7 +14,6 @@ RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-
     && requirementsToRemove="libpng12-dev libjpeg-dev libmcrypt-dev libcurl3-dev libxml2-dev libicu-dev" \
     && apt-get purge --auto-remove -y $requirementsToRemove \
     && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini
-    && echo "memory_limit=-1" > /usr/local/etc/php/php.ini
 
 RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && chmod +x /usr/bin/composer \
@@ -23,7 +22,7 @@ RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && apt-get purge -y --auto-remove zlib1g-dev \
     && composer selfupdate
 
-RUN sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/docroot/" /etc/apache2/apache2.conf \
+RUN sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www/" /etc/apache2/apache2.conf \
     && rm -rf /var/www && mkdir -p /var/www
 
 VOLUME ["/var/www"]

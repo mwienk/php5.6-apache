@@ -17,6 +17,7 @@ RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-
     && docker-php-ext-install zip \
     && docker-php-ext-install bz2 \
     && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini
+    && echo "memory_limit=-1" > /usr/local/etc/php/php.ini
 
 RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && chmod +x /usr/bin/composer \
@@ -25,8 +26,8 @@ RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
 
 RUN npm install -g gulp
 
-RUN sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www/" /etc/apache2/apache2.conf \
-    && rm -rf /var/www/html
+RUN sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/docroot/" /etc/apache2/apache2.conf \
+    && rm -rf /var/www && mkdir -p /var/www
 
 VOLUME ["/var/www"]
 
