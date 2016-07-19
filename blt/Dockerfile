@@ -23,8 +23,8 @@ RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && chmod +x /usr/bin/composer \
     && apt-get update && apt-get install -y zlib1g-dev git && rm -rf /var/lib/apt/lists/* \
     && composer selfupdate \
-    && composer global require symfony/console:2.7.9 codegyre/robo:1.0.0-beta1 drush/drush:dev-master
-    && export PATH="$HOME/.composer/vendor/bin:$PATH" \
+    && composer global require symfony/console:2.7.9 codegyre/robo:1.0.0-beta1 drush/drush:dev-master \
+    && export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 RUN npm install -g gulp
 
