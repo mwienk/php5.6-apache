@@ -19,13 +19,17 @@ RUN requirements="libpng12-dev libjpeg-dev libjpeg62-turbo libmcrypt4 libmcrypt-
     && echo "always_populate_raw_post_data=-1" > /usr/local/etc/php/php.ini \
     && echo "memory_limit=-1" > /usr/local/etc/php/php.ini
 
+ENV COMPOSER_HOME /composer
+
+ENV PATH /composer/vendor/bin:$PATH
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
 RUN curl -sSL https://getcomposer.org/composer.phar -o /usr/bin/composer \
     && chmod +x /usr/bin/composer \
     && apt-get update && apt-get install -y zlib1g-dev git && rm -rf /var/lib/apt/lists/* \
     && composer selfupdate \
     && composer global require symfony/console:2.7.9 codegyre/robo:1.0.0-beta1 drush/drush:dev-master
-
-ENV PATH /root/.composer/vendor/bin:$PATH
 
 RUN npm install -g gulp
 
